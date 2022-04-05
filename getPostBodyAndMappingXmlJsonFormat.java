@@ -1,3 +1,27 @@
+package xx.xx.xx.xx.xx;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Map;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONObject;
+import org.json.XML;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+
 public class AmazonCustomFilter extends AbstractAuthenticationProcessingFilter {
 	
 
@@ -25,8 +49,8 @@ public class AmazonCustomFilter extends AbstractAuthenticationProcessingFilter {
 		if("application/xml".equalsIgnoreCase(contentType)) {
 			
 
-			byte[] xmlData = new byte[request.getContentLength()];
-			//Start reading XML Request as a Stream of Bytes
+		byte[] xmlData = new byte[request.getContentLength()];
+		//Start reading XML Request as a Stream of Bytes
 	        InputStream sis = request.getInputStream();
 	        BufferedInputStream bis = new BufferedInputStream(sis);
 	        bis.read(xmlData, 0, xmlData.length);
@@ -45,8 +69,8 @@ public class AmazonCustomFilter extends AbstractAuthenticationProcessingFilter {
 	        validationMap = oMapper.convertValue(amazonTrackingRequestMap.get("Validation"), Map.class);
 	        
 		}else {
-            requestMap = oMapper.readValue(request.getInputStream(), Map.class);
-            validationMap = oMapper.convertValue(requestMap.get("Validation"), Map.class);
+		    requestMap = oMapper.readValue(request.getInputStream(), Map.class);
+		    validationMap = oMapper.convertValue(requestMap.get("Validation"), Map.class);
 
 		}
 		
